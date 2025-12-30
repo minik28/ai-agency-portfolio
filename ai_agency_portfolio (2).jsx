@@ -26,14 +26,46 @@ const Portfolio = () => {
   }, [darkMode]);
 
   // Supabase Realtime Subscription für demo_stats
-  useEffect(() => {
 // Supabase Realtime Subscription für demo_stats
   useEffect(() => {
-    const client = supabase; 
+    const client = supabase;
     
     // Initiale Daten laden
     const fetchDemoStats = async () => {
       const { data, error } = await client
+        .from('demo_stats')
+        .select('*');
+      
+      if (data && !error) {
+        const statsMap = {};
+        data.forEach(stat => {
+          if (!statsMap[stat.demo_id]) {
+            statsMap[stat.demo_id] = {};
+          }
+          statsMap[stat.demo_id][stat.metric_name] = stat.metric_value;
+        });
+        setDemoStats(statsMap);
+      }
+    };
+
+    fetchDemoStats();
+
+    // Realtime Subscription
+    const channel = client
+      .channel('public:demo_stats')
+      .on('postgres_changes', { 
+        event: '*', 
+        schema: 'public', 
+        table: 'demo_stats' 
+      }, () => {
+        fetchDemoStats();
+      })
+      .subscribe();
+
+    return () => {
+      client.removeChannel(channel);
+    };
+  }, []); // Diese Klammern haben gefehlt und den Fehler verursacht
         .from('demo_stats')
         .select('*');
       
