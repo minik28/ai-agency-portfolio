@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js'; // Importiere den installierten Client
 import { Menu, X, Zap, Database, Brain, Code, ChevronRight, Moon, Sun, Terminal, Sparkles, MessageSquare, Mail, Linkedin, Github } from 'lucide-react';
 
-// Supabase Client über CDN
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-
-// Supabase Client wird dynamisch geladen
-let supabase = null;
-
-const initSupabase = () => {
-  if (window.supabase && !supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-  return supabase;
-};
+// Wir nutzen die Umgebungsvariablen von Vercel
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON_KEY
+);
 
 const Portfolio = () => {
+  // Hier geht dein Code ganz normal weiter bei:
   const [darkMode, setDarkMode] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // ...
   const [activeDemo, setActiveDemo] = useState(0);
   const [formData, setFormData] = useState({ name: '', email: '', company: '', message: '' });
   const [formStatus, setFormStatus] = useState('');
