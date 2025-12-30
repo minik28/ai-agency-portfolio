@@ -27,13 +27,14 @@ const Portfolio = () => {
 
   // Supabase Realtime Subscription für demo_stats
   useEffect(() => {
+// Supabase Realtime Subscription für demo_stats
+  useEffect(() => {
     const client = initSupabase();
     
     if (!client) {
       console.warn('Supabase client nicht verfügbar. Bitte füge das Supabase CDN Script hinzu.');
       return;
     }
-
     // Initiale Daten laden
     const fetchDemoStats = async () => {
       const { data, error } = await client
