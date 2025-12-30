@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Menu, X, Zap, Database, Brain, Code, ChevronRight, Moon, Sun, Terminal, Sparkles, MessageSquare, Mail, Linkedin, Github } from 'lucide-react';
+import './index.css';
 
 const Portfolio = () => {
   const [darkMode, setDarkMode] = React.useState(true);
